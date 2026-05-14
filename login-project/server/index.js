@@ -1,7 +1,7 @@
+require("dotenv").config();
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
-require("dotenv").config();
 
 const app = express();
 
@@ -40,3 +40,6 @@ const port = process.env.port || 5000;
 app.listen(port, () => {
   console.log("Server Running");
 });
+
+
+// deploy trigger
