@@ -1,18 +1,17 @@
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "@Abbas055",
-  database: "login_db",
-});
+
+require("dotenv").config();
+
+const db = mysql.createConnection(process.env.DATABASE_URL);
 
 db.connect((err) => {
   if (err) {
@@ -23,12 +22,12 @@ db.connect((err) => {
 });
 
 app.post("/register", (req, res) => {
-  const { email, password } = req.body;
+  const { name, password } = req.body;
 
   const sql =
-    "INSERT INTO users (email, password) VALUES (?, ?)";
+    "INSERT INTO users (name, password) VALUES (?, ?)";
 
-  db.query(sql, [email, password], (err, result) => {
+  db.query(sql, [name, password], (err, result) => {
     if (err) {
       console.log(err);
       res.send("Error");
@@ -37,7 +36,7 @@ app.post("/register", (req, res) => {
     }
   });
 });
-
-app.listen(5000, () => {
+const port = process.env.port || 5000;
+app.listen(port, () => {
   console.log("Server Running");
 });
